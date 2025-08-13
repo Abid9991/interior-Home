@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback - Homestyler</title>
+<link rel="stylesheet" href="icons/css/all.css">
+<style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #fff; }
+    /* Navbar */
+    .navbar { display: flex; justify-content: space-between; padding: 10px 20px; background: #333; color: white; align-items: center; }
+    .navbar ul { display: flex; list-style: none; gap: 15px; margin: 0; padding: 0; }
+    .navbar ul li a { color: white; text-decoration: none; }
+
+    /* Feedback Form */
+    .feedback-container { max-width: 600px; margin: 30px auto; background: #f5f5f5; padding: 20px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .feedback-container h2 { text-align: center; margin-bottom: 20px; }
+    .feedback-container label { display: block; margin-top: 10px; font-weight: bold; }
+    .feedback-container input, .feedback-container textarea, .feedback-container select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    .feedback-container textarea { resize: vertical; min-height: 100px; }
+    .feedback-container .char-count { text-align: right; font-size: 12px; color: gray; }
+    .feedback-container button { margin-top: 15px; width: 100%; padding: 10px; background: #333; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    .feedback-container button:hover { background: #555; }
+
+    /* Footer */
+    .footer { background: #333; color: white; text-align: center; padding: 10px; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <img src="source/logo.png" class="logo" style="height:40px;">
+    <ul>
+  <li><a href="index.html">Home</a></li>
+                <li><a href="book.html">Product Selection:</a></li>
+                <li><a href="design.html">Viewing Design Styles</a></li>
+                <li><a href="how.html">About Us</a></li>
+                <li><a href="visit.html">Contact Us</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                 <li><a href="reviews.html">Reviews</a></li>
+    </ul>
+</div>
+
+<!-- Feedback Form -->
+<div class="feedback-container">
+    <h2>We Value Your Feedback</h2>
+    <form id="feedbackForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Your email">
+
+        <label for="rating">Rating</label>
+        <select id="rating">
+            <option value="">Select Rating</option>
+            <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+            <option value="4">⭐⭐⭐⭐ - Good</option>
+            <option value="3">⭐⭐⭐ - Average</option>
+            <option value="2">⭐⭐ - Poor</option>
+            <option value="1">⭐ - Very Poor</option>
+        </select>
+
+        <label for="message">Message</label>
+        <textarea id="message" maxlength="300" placeholder="Your feedback..."></textarea>
+        <div class="char-count"><span id="charCount">0</span>/300</div>
+
+        <button type="submit">Submit Feedback</button>
+    </form>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Homestyler. All Rights Reserved.</p>
+</div>
+
+<script>
+const messageBox = document.getElementById("message");
+const charCount = document.getElementById("charCount");
+const form = document.getElementById("feedbackForm");
+
+messageBox.addEventListener("input", () => {
+    charCount.textContent = messageBox.value.length;
+});
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const rating = document.getElementById("rating").value;
+    const message = messageBox.value.trim();
+
+    if (!name || !email || !rating || !message) {
+        alert("Please fill in all fields before submitting.");
+        return;
+    }
+
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    reviews.push({
+        name: name,
+        rating: rating,
+        message: message,
+        date: new Date().toLocaleString()
+    });
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    alert("✅ Thank you for your feedback! It will appear on the Reviews page.");
+    form.reset();
+    charCount.textContent = 0;
+});
+</script>
+
+</body>
+</html>

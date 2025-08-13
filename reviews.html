@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Reviews & Ratings | Homestyler</title>
+<link rel="stylesheet" href="icons/css/all.css">
+<style>
+    body { font-family: Arial, sans-serif; margin:0; background:#fff; }
+    .navbar { display: flex; justify-content: space-between; padding: 10px 20px; background: #333; color: white; align-items: center; }
+    .navbar ul { display: flex; list-style: none; gap: 15px; margin: 0; padding: 0; }
+    .navbar ul li a { color: white; text-decoration: none; }
+    .review-container { max-width: 900px; margin: 30px auto; padding: 20px; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .review-card { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .review-card h3 { margin: 0 0 5px; }
+    .review-stars { color: gold; margin-bottom: 5px; }
+    .review-date { font-size: 12px; color: gray; margin-bottom: 10px; }
+    .footer { background: #333; color: white; text-align: center; padding: 10px; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <img src="source/logo.png" class="logo" style="height:40px;">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+                <li><a href="book.html">Product Selection:</a></li>
+                <li><a href="design.html">Viewing Design Styles</a></li>
+                <li><a href="how.html">About Us</a></li>
+                <li><a href="visit.html">Contact Us</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                 <li><a href="reviews.html">Reviews</a></li>
+    </ul>
+</div>
+
+<!-- Reviews -->
+<div class="review-container">
+    <h1>User Reviews & Ratings</h1>
+    <div id="reviewList"></div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Homestyler. All Rights Reserved.</p>
+</div>
+
+<script>
+function loadReviews() {
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    const reviewList = document.getElementById("reviewList");
+    reviewList.innerHTML = "";
+
+    if (reviews.length === 0) {
+        reviewList.innerHTML = "<p>No reviews yet. Be the first to leave feedback!</p>";
+        return;
+    }
+
+    reviews.reverse().forEach(r => {
+        let stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+        let card = `
+            <div class="review-card">
+                <h3>${r.name}</h3>
+                <div class="review-stars">${stars}</div>
+                <div class="review-date">${r.date}</div>
+                <p>${r.message}</p>
+            </div>
+        `;
+        reviewList.innerHTML += card;
+    });
+}
+
+loadReviews();
+</script>
+
+</body>
+</html>
